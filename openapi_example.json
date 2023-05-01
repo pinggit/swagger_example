@@ -1,0 +1,117 @@
+openapi: "3.0.0"
+info:
+  title: User API
+  description: A simple API to manage users
+  version: "1.0.0"
+servers:
+  - url: http://example.com/api/v1
+paths:
+  /users:
+    get:
+      summary: Get all users
+      description: Returns a list of all users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+    post:
+      summary: Create a new user
+      description: Creates a new user with the given name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the user
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      description: Returns a user with the given ID
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the user
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+    put:
+      summary: Update a user by ID
+      description: Updates a user with the given ID and name
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the user
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The new name of the user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+    delete:
+      summary: Delete a user by ID
+      description: Deletes a user with the given ID
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the user
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content

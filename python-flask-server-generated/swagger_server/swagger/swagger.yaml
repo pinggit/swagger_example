@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  title: User API
+  description: A simple API to manage users
+  version: 1.0.0
+servers:
+- url: http://example.com/api/v1
+paths:
+  /users:
+    get:
+      summary: Get all users
+      description: Returns a list of all users
+      operationId: users_get
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200'
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    post:
+      summary: Create a new user
+      description: Creates a new user with the given name
+      operationId: users_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users_body'
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      description: Returns a user with the given ID
+      operationId: users_id_get
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    put:
+      summary: Update a user by ID
+      description: Updates a user with the given ID and name
+      operationId: users_id_put
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users_id_body'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    delete:
+      summary: Delete a user by ID
+      description: Deletes a user with the given ID
+      operationId: users_id_delete
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: No Content
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+components:
+  schemas:
+    inline_response_200:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      example:
+        name: name
+        id: 0
+    users_body:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the user
+    users_id_body:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The new name of the user
+
